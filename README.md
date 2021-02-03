@@ -1,5 +1,7 @@
-# json-schema-new
-
+# Vue Form Generator
+```
+With Mirage JS as backend mockup
+```
 ## Project setup
 ```
 npm install
