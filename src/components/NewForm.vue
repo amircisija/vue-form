@@ -2,9 +2,9 @@
   <el-container>
     <el-main>
       <el-row>
-        <el-col :span="24" style="margin-bottom: 60px;">
+        <el-col :span="12" style="margin-bottom: 60px;">
           <el-alert
-            title="Form sent"
+            title="POST API SENT"
             type="success"
             v-if="isVisible">
           </el-alert>
@@ -17,8 +17,8 @@
           </div>
         </el-col>
 
-        <el-col :span="24" v-if="formGetRequest">
-          <el-button type="success" @click="getFormData()">Get Submitted Form Data from APi</el-button>
+        <el-col :span="12" v-if="formGetRequest">
+
           <el-table :data="formGetRequest" style="width: 100%">
             <el-table-column prop="firstname" label="First Name">
             </el-table-column>
@@ -31,6 +31,7 @@
             <el-table-column prop="confidential" label="Confidential">
             </el-table-column>
           </el-table>
+          <el-button type="success" @click="getFormData()">Get Submitted Form Data from APi</el-button>
         </el-col>
       </el-row>
     </el-main>
@@ -128,30 +129,6 @@
                 return false;
               }
             },
-/*             {
-              type: "submit",
-              onSubmit(model, isValid, errors) {
-                console.log("Axios submit");
-                if(isValid) {
-
-                  axios.post('/api/data', model)
-                    .then(function (response) {
-                      console.log("Axios submit");
-                      console.log(model);
-                      console.log(response);
-                    })
-                    .catch(function (error) {
-                      console.log(error);
-                    });
-                } else {
-                  console.log(errors)
-                }
-
-              },
-              label: "",
-              buttonText: "Submit",
-              validateBeforeSubmit: true
-            } */
           ]
         },
         formOptions: {
@@ -167,14 +144,20 @@
         console.log("Validation result: ", isValid, ", Errors:", errors);
       },
       onSubmit() {
-        // using "validateAsync option, so validate() returns a promise
         this.$refs.vfg.validate().then((valid) => {
           if(valid) {
+            this.isVisible = true;
             let dataSubmitted = this.model;
-              axios.post('/api/data', dataSubmitted)
+              axios.post('/api/data', {
+                  firstname: dataSubmitted.firstname,
+                  lastname: dataSubmitted.lastname,
+                  message: dataSubmitted.message,
+                  gender: dataSubmitted.gender,
+                  confidential: dataSubmitted.confidential,
+                })
                 .then(function (response) {
                   console.log("Axios submit");
-                  this.isVisible = true;
+                  console.log(response);
                 })
                 .catch(function (error) {
                   console.log(error);
@@ -194,22 +177,11 @@
             console.log(error.response)
           })
       }
-      /*       submitData(dataSubmitet) {
-              axios.post('/api/data', dataSubmitet)
-                .then(function (response) {
-                  console.log("Axios submit");
-                  console.log(dataSubmitet);
-                  console.log(response);
-                })
-                .catch(function (error) {
-                  console.log(error);
-                });
-            } */
     },
 
        created() {
           this.getFormData();
-
+          this.isVisible = false;
         }
   }
 

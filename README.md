@@ -1,6 +1,7 @@
 # Vue Form Generator
 ```
-With Mirage JS as backend mockup
+Using vue-form-generator 
+with Mirage JS as backend mockup
 ```
 ## Project setup
 ```
